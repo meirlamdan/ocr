@@ -1,5 +1,14 @@
 <template>
   <div >
+      <div class="instructions">
+          <h4>הוראות</h4>
+          <ol>
+              <li>.בחר תמונה מהמחשב</li>
+              <li>.לחץ על 'סרוק' והמתן לתוצאות</li>
+              <li>.בדוק (וערוך?) את הטקסט והעתק</li>
+          </ol>
+
+      </div>
     <input type="file" id="file" @change="ludeImg" /><br />
     <img
       v-if="src"
@@ -9,7 +18,7 @@
       width="400"
       height="400"
     /><br />
-    <button v-if="src" @click="getTxt">סרוק</button> <br />
+    <button v-if="src" id="button-scan" @click="getTxt">סרוק</button> <br />
     <h3 v-if="!txt && start">סורק..</h3>
     <div v-if="txt && !start">
       <textarea
@@ -21,7 +30,7 @@
         v-model="txt"
       ></textarea
       ><br />
-      <button @click="copyTxt">העתק</button> {{copy}}
+      <button  @click="copyTxt">העתק</button> {{copy}}
     </div>
   </div>
 </template>
@@ -60,9 +69,10 @@ export default {
     const copyTxt = () => {
       document.querySelector("textarea").select();
       document.execCommand("copy");
-      copy.value = "הועתק !"
+      document.querySelector("textarea").blur();
+      copy.value = "הועתק!"
       setTimeout(() => {
-          copy.value = ""
+          copy.value = ""    
       }, 5000);
     };
     return { txt, src, start, copy, ludeImg, getTxt, copyTxt };
@@ -74,5 +84,29 @@ export default {
 #textarea-ocr ,.img-ocr {
   border: 2px solid #2a668d;
   border-radius: 5px;
+  margin-top: 20px;
+}
+.instructions{
+list-style-position: inside;
+text-align: justify;
+width: 40%;
+border: 1px  solid rgb(120, 189, 235);
+border-radius: 5px;
+margin: 0 auto;
+margin-bottom: 20px;
+background: rgb(233, 237, 240);
+
+
+}
+.instructions h4 {
+text-align:center
+}
+
+#button-scan{
+    background: rgb(135, 187, 211);
+    color: white;
+    padding: 10px 24px;
+    font-size: 16px;
+    border: none;
 }
 </style>
