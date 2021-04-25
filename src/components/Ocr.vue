@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h2>ocr -סריקת מסמכים לטקסט</h2>
+  <div >
     <input type="file" id="file" @change="ludeImg" /><br />
     <img
       v-if="src"
@@ -10,19 +9,19 @@
       width="400"
       height="400"
     /><br />
-    <button @click="getTxt">סרוק</button> <br />
+    <button v-if="src" @click="getTxt">סרוק</button> <br />
     <h3 v-if="!txt && start">סורק..</h3>
     <div v-if="txt && !start">
       <textarea
         v-if="txt && !start"
         name=""
-        id=""
+        id="textarea-ocr"
         cols="60"
         rows="20"
         v-model="txt"
       ></textarea
       ><br />
-      <button @click="copyTxt">העתק</button>
+      <button @click="copyTxt">העתק</button> {{copy}}
     </div>
   </div>
 </template>
@@ -35,6 +34,8 @@ export default {
     const txt = ref("");
     const src = ref("");
     const start = ref(false);
+    const copy = ref("")
+
 
     const ludeImg = (event) => {
       const file = event.target.files[0];
@@ -59,14 +60,19 @@ export default {
     const copyTxt = () => {
       document.querySelector("textarea").select();
       document.execCommand("copy");
+      copy.value = "הועתק !"
+      setTimeout(() => {
+          copy.value = ""
+      }, 5000);
     };
-    return { txt, src, start, ludeImg, getTxt, copyTxt };
+    return { txt, src, start, copy, ludeImg, getTxt, copyTxt };
   },
 };
 </script>
 
 <style>
-.img-ocr {
-  border: 1px solid black;
+#textarea-ocr ,.img-ocr {
+  border: 2px solid #2a668d;
+  border-radius: 5px;
 }
 </style>

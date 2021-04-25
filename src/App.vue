@@ -1,19 +1,21 @@
 <template>
-  <img alt="Vue logo" src="./assets/scan.png" height="250" width="250">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <Ocr/>
-
+  <div id="header"><h2>ocr - סריקת מסמכים לטקסט</h2></div>
+  <img alt="Vue logo" src="./assets/scan.png" height="250" width="250" />
+  <br />
+  <br />
+  <br />
+  <Ocr />
 </template>
 
 <script>
-import Ocr from './components/Ocr.vue'
+import Ocr from "./components/Ocr.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Ocr
-  }
-}
+    Ocr,
+  },
+};
 </script>
 
 <style>
@@ -23,6 +25,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+#header h2 {
+  background: #deeaf2;
+  margin: 0px;
 }
 </style>
