@@ -9,7 +9,7 @@
           </ol>
 
       </div>
-    <input type="file" id="file" @change="ludeImg" /><br />
+    <input type="file" id="file" @change="ludeImg" accept="image/*"/><br />
     <img
       v-if="src"
       :src="src"
@@ -76,7 +76,7 @@ export default {
           copy.value = ""    
       }, 5000);
     };
-    return { txt, src, start, copy, ludeImg, getTxt, copyTxt ,ludePdf};
+    return { txt, src, start, copy, ludeImg, getTxt, copyTxt};
   },
 };
 </script>
