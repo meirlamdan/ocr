@@ -50,6 +50,7 @@ export default {
       const file = event.target.files[0];
       src.value = URL.createObjectURL(file);
     };
+    
     const getTxt = async () => {
       if(txt.value){txt.value = ''}
       const worker = createWorker();
@@ -75,7 +76,7 @@ export default {
           copy.value = ""    
       }, 5000);
     };
-    return { txt, src, start, copy, ludeImg, getTxt, copyTxt };
+    return { txt, src, start, copy, ludeImg, getTxt, copyTxt ,ludePdf};
   },
 };
 </script>
@@ -108,5 +109,6 @@ text-align:center
     padding: 10px 24px;
     font-size: 16px;
     border: none;
+    border-radius: 4px;
 }
 </style>
