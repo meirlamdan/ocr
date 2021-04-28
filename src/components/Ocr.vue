@@ -39,10 +39,7 @@
 import { createWorker } from "tesseract.js";
 import { computed, ref } from "vue";
 export default {
-  components: {
-    FileInput,
-  },
-  setup() {
+    setup() {
     const txt = ref("");
     const start = ref(false);
     const copy = ref("");
