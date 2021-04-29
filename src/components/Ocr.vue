@@ -3,7 +3,7 @@
     <div class="instructions">
       <h4>הוראות</h4>
       <ol>
-        <li>.בחר תמונה מהמחשב</li>
+        <li>. בחר תמונה מהמחשב או הדבק כתובת תמונה</li>
         <li>.לחץ על 'סרוק' והמתן לתוצאות</li>
         <li>.בדוק (וערוך?) את הטקסט והעתק</li>
       </ol>
@@ -11,10 +11,15 @@
     <div>
       <label for="imput-file" class="but-ocr">בחר קובץ</label>
       <input type="file" id="imput-file" accept="image/*" @change="ludeimg" />
+      <br>
+      <input type="text" id="input-url" v-model="url" @input="ludeimg" placeholder=" הדבק כתובת תמונה"/>
       <p v-if="file">{{ file.name }}</p>
     </div>
+    
     <img v-if="src" :src="src" id="img-ocr" alt="תמונה לסריקה" /><br />
-    <button v-if="src && !txt" class="but-ocr" @click="getTxt">סרוק</button>
+
+    <button v-if="src && !txt" class="but-ocr" @click="getTxt(src)">סרוק</button>
+
     <br />
     <h3 v-if="!txt && start">סורק..</h3>
     <div v-if="txt && !start">
@@ -37,35 +42,34 @@
 
 <script>
 import { createWorker } from "tesseract.js";
-import { computed, ref } from "vue";
+import { ref, } from "vue";
 export default {
     setup() {
     const txt = ref("");
     const start = ref(false);
     const copy = ref("");
     const file = ref("");
+    const url = ref("")
+    const src = ref("")
 
-    const src = computed(() => {
-      return file.value ? URL.createObjectURL(file.value) : "";
-    });
     const ludeimg = async (event) => {
-      file.value = event.target.files[0];
       txt.value = "";
+      if(event.target.files){
+        file.value = event.target.files[0];
+        src.value = URL.createObjectURL(file.value)
+        url.value = "";
+      }else{
+        src.value = url.value
+      }
     };
 
-    const getTxt = async () => {
-      if (txt.value) {
-        txt.value = "";
-      }
+    const getTxt = async (img) => {
       const worker = createWorker();
       await worker.load();
       await worker.loadLanguage("heb+eng");
       await worker.initialize("heb+eng");
       start.value = true;
-
-      const {
-        data: { text },
-      } = await worker.recognize(src.value);
+      const {data: { text },} = await worker.recognize(img);
       txt.value = text;
       start.value = false;
       await worker.terminate();
@@ -78,9 +82,10 @@ export default {
       copy.value = "הועתק!";
       setTimeout(() => {
         copy.value = "";
-      }, 5000);
+      }, 4000);
     };
-    return { txt, file, start, copy, getTxt, ludeimg, copyTxt, src };
+    
+    return { txt, file, start, copy, getTxt, ludeimg, copyTxt, src,url };
   },
 };
 </script>
@@ -128,6 +133,12 @@ export default {
   position: absolute;
   z-index: -1;
 }
+#input-url{
+  height: 20px;
+  border: solid 2px rgb(50, 117, 148);
+  border-radius: 5px;
+  margin: 5px;
+}
 .but-ocr {
   background: rgb(50, 117, 148);
   color: white;
@@ -135,6 +146,7 @@ export default {
   font-size: 18px;
   border: 1px solid black;
   border-radius: 4px;
+  display: inline-block;
 }
 .but-ocr:hover {
   border: 2px solid black;
