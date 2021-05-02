@@ -17,6 +17,7 @@
     </div>
     
     <img v-if="src" :src="src" id="img-ocr" alt="תמונה לסריקה" /><br />
+    <h4 v-if="err">{{err}}</h4>
 
     <button v-if="src && !txt" class="but-ocr" @click="getTxt(src)">סרוק</button>
 
@@ -51,14 +52,17 @@ export default {
     const file = ref("");
     const url = ref("")
     const src = ref("")
+    const err = ref("")
 
     const ludeimg = async (event) => {
+      err.value =""
       txt.value = "";
       if(event.target.files){
         file.value = event.target.files[0];
         src.value = URL.createObjectURL(file.value)
         url.value = "";
       }else{
+
         const img = document.createElement('img');
         const canvas = document.createElement("canvas")
         const ctx = canvas.getContext("2d")
@@ -68,9 +72,10 @@ export default {
         ctx.drawImage( img, 0, 0 );
          src.value = canvas.toDataURL("image/png")     
         }
+        img.onerror = (e)=>{err.value="שגיאה! 1. בדוק את הכתובת. 2. בדוק את מדיניות המקור (CORS)"}
         img.crossOrigin = 'anonymous';
         img.src = url.value
-            }
+         }
     };
 
     const getTxt = async (img) => {
@@ -95,7 +100,7 @@ export default {
       }, 4000);
     };
 
-    return { txt, file, start, copy, getTxt, ludeimg, copyTxt, src,url };
+    return { txt, file, start, copy, err,getTxt, ludeimg, copyTxt, src,url };
   },
 };
 </script>
