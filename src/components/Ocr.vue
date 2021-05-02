@@ -3,9 +3,9 @@
     <div class="instructions">
       <h4>הוראות</h4>
       <ol>
-        <li>. בחר תמונה מהמחשב או הדבק כתובת תמונה</li>
-        <li>.לחץ על 'סרוק' והמתן לתוצאות</li>
-        <li>.בדוק (וערוך?) את הטקסט והעתק</li>
+        <li> בחר תמונה מהמחשב או הדבק כתובת תמונה</li>
+        <li>לחץ על 'סרוק' והמתן לתוצאות</li>
+        <li>בדוק (וערוך?) את הטקסט והעתק</li>
       </ol>
     </div>
     <div>
@@ -59,8 +59,18 @@ export default {
         src.value = URL.createObjectURL(file.value)
         url.value = "";
       }else{
-        src.value = url.value
-      }
+        const img = document.createElement('img');
+        const canvas = document.createElement("canvas")
+        const ctx = canvas.getContext("2d")
+        img.onload = (e)=>{
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage( img, 0, 0 );
+         src.value = canvas.toDataURL("image/png")     
+        }
+        img.crossOrigin = 'anonymous';
+        img.src = url.value
+            }
     };
 
     const getTxt = async (img) => {
@@ -84,7 +94,7 @@ export default {
         copy.value = "";
       }, 4000);
     };
-    
+
     return { txt, file, start, copy, getTxt, ludeimg, copyTxt, src,url };
   },
 };
