@@ -1,6 +1,6 @@
 <template>
   <div id="header"><h2>ocr - סריקת מסמכים לטקסט</h2></div>
-  <img alt="Vue logo" src="./assets/scan.png" height="250" width="250" />
+  <img alt="ocr - חילוץ טקסט מתמונה" src="./assets/scan.png" height="250" width="250" />
   <br />
   <br />
   <br />

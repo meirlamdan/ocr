@@ -164,7 +164,7 @@ export default {
   margin: 5px;
 }
 .instructions ol {
-  padding: 10px;
+  padding: 4px;
   list-style-position: inside;
 }
 #imput-file {
