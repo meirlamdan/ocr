@@ -29,5 +29,6 @@ export default {
 #header h2 {
   background: #deeaf2;
   margin: 0px;
+  border-bottom: solid 3px #92cbf1;
 }
 </style>

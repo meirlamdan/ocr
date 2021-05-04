@@ -3,7 +3,7 @@
     <div class="instructions">
       <h4>הוראות</h4>
       <ol>
-        <li> בחר תמונה מהמחשב או הדבק כתובת תמונה</li>
+        <li>בחר תמונה מהמחשב או הדבק כתובת תמונה</li>
         <li>לחץ על 'סרוק' והמתן לתוצאות</li>
         <li>בדוק (וערוך?) את הטקסט והעתק</li>
       </ol>
@@ -11,16 +11,23 @@
     <div>
       <label for="imput-file" class="but-ocr">בחר קובץ</label>
       <input type="file" id="imput-file" accept="image/*" @change="ludeimg" />
-      <br>
-      <input type="text" id="input-url" v-model="url" @input="ludeimg" placeholder=" הדבק כתובת תמונה"/>
+      <br />
+      <input
+        type="text"
+        id="input-url"
+        v-model="url"
+        @input="ludeimg"
+        placeholder=" הדבק כתובת תמונה"
+      />
       <p v-if="file">{{ file.name }}</p>
     </div>
-    
+
     <img v-if="src" :src="src" id="img-ocr" alt="תמונה לסריקה" /><br />
-    <h4 v-if="err">{{err}}</h4>
-
-    <button v-if="src && !txt" class="but-ocr" @click="getTxt(src)">סרוק</button>
-
+    <h4 v-if="err">{{ err }}</h4>
+    <div v-if="src && !txt">
+      <settings @setLanguage="language = $event" />
+      <button class="but-ocr" @click="getTxt(src)">סרוק</button>
+    </div>
     <br />
     <h3 v-if="!txt && start">סורק..</h3>
     <div v-if="txt && !start">
@@ -43,48 +50,56 @@
 
 <script>
 import { createWorker } from "tesseract.js";
-import { ref, } from "vue";
+import { ref } from "vue";
+import Settings from "./Settings.vue";
 export default {
-    setup() {
+  components: { Settings },
+  setup() {
     const txt = ref("");
     const start = ref(false);
     const copy = ref("");
     const file = ref("");
-    const url = ref("")
-    const src = ref("")
-    const err = ref("")
+    const url = ref("");
+    const src = ref("");
+    const err = ref("");
+    const language = ref({ lang: "heb", name: "עברית" });
 
     const ludeimg = async (event) => {
-      err.value =""
+      err.value = "";
       txt.value = "";
-      if(event.target.files){
+      if (event.target.files) {
         file.value = event.target.files[0];
-        src.value = URL.createObjectURL(file.value)
+        src.value = URL.createObjectURL(file.value);
         url.value = "";
-      }else{
-
-        const img = document.createElement('img');
-        const canvas = document.createElement("canvas")
-        const ctx = canvas.getContext("2d")
-        img.onload = (e)=>{
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage( img, 0, 0 );
-         src.value = canvas.toDataURL("image/png")     
-        }
-        img.onerror = (e)=>{err.value="שגיאה! 1. בדוק את הכתובת. 2. בדוק את מדיניות המקור (CORS)"}
-        img.crossOrigin = 'anonymous';
-        img.src = url.value
-         }
+      } else {
+        const img = document.createElement("img");
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        img.onload = (e) => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          src.value = canvas.toDataURL("image/png");
+        };
+        img.onerror = (e) => {
+          err.value =
+            "שגיאה! 1. בדוק את הכתובת. 2. בדוק את מדיניות המקור (CORS)";
+        };
+        img.crossOrigin = "anonymous";
+        img.src = url.value;
+      }
     };
 
     const getTxt = async (img) => {
       const worker = createWorker();
-      await worker.load();
-      await worker.loadLanguage("heb+eng");
-      await worker.initialize("heb+eng");
       start.value = true;
-      const {data: { text },} = await worker.recognize(img);
+      await worker.load();
+      await worker.loadLanguage(language.value.lang);
+      await worker.initialize(language.value.lang);
+      start.value = true;
+      const {
+        data: { text },
+      } = await worker.recognize(img);
       txt.value = text;
       start.value = false;
       await worker.terminate();
@@ -100,7 +115,19 @@ export default {
       }, 4000);
     };
 
-    return { txt, file, start, copy, err,getTxt, ludeimg, copyTxt, src,url };
+    return {
+      txt,
+      file,
+      start,
+      copy,
+      err,
+      language,
+      getTxt,
+      ludeimg,
+      copyTxt,
+      src,
+      url,
+    };
   },
 };
 </script>
@@ -137,7 +164,7 @@ export default {
   margin: 5px;
 }
 .instructions ol {
-  padding: 0;
+  padding: 10px;
   list-style-position: inside;
 }
 #imput-file {
@@ -148,7 +175,7 @@ export default {
   position: absolute;
   z-index: -1;
 }
-#input-url{
+#input-url {
   height: 20px;
   border: solid 2px rgb(50, 117, 148);
   border-radius: 5px;
