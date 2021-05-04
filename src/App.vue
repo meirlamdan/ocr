@@ -1,5 +1,5 @@
 <template>
-  <div id="header"><h2>ocr - סריקת מסמכים לטקסט</h2></div>
+  <div id="header"><h2>ocr - סריקת תמונות וקבצי pdf לטקסט</h2></div>
   <img alt="ocr - חילוץ טקסט מתמונה" src="./assets/scan.png" height="250" width="250" />
   <br />
   <br />
