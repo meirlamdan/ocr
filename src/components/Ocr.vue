@@ -7,6 +7,7 @@
         <li>לחץ על 'סרוק' והמתן לתוצאות</li>
         <li>בדוק (וערוך?) את הטקסט והעתק</li>
       </ol>
+      <p><b>לע"ע אין תמיכה בקבצי pdf </b></p>
     </div>
     <div>
       <label for="imput-file" class="but-ocr">בחר קובץ</label>
