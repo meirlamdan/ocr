@@ -142,7 +142,7 @@ export default {
   margin: 0 auto;
 }
 #textarea-ocr {
-  width: 80%;
+  width: 70%;
   border: 2px solid #2a668d;
   border-radius: 5px;
   display: block;
