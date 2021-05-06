@@ -7,7 +7,6 @@
         <li>לחץ על 'סרוק' והמתן לתוצאות</li>
         <li>בדוק (וערוך?) את הטקסט והעתק</li>
       </ol>
-      <p><b>לע"ע אין תמיכה בקבצי pdf </b></p>
     </div>
     <div>
       <label for="imput-file" class="but-ocr">בחר קובץ</label>
@@ -155,7 +154,6 @@ export default {
   width: 40%;
   border: 1px solid rgb(120, 189, 235);
   border-radius: 5px;
-  padding: 0;
   margin: 0 auto;
   margin-bottom: 20px;
   background: rgb(233, 237, 240);
