@@ -12,13 +12,7 @@
       <label for="imput-file" class="but-ocr">בחר קובץ</label>
       <input type="file" id="imput-file" accept="image/*" @change="ludeimg" />
       <br />
-      <input
-        type="text"
-        id="input-url"
-        v-model="url"
-        @input="ludeimg"
-        placeholder=" הדבק כתובת תמונה"
-      />
+      <input type="text" id="input-url" v-model="url" @input="ludeimg" placeholder=" הדבק כתובת תמונה" />
       <p v-if="file">{{ file.name }}</p>
     </div>
 
@@ -32,15 +26,7 @@
     <h3 v-if="!txt && start">סורק..</h3>
     <div v-if="txt && !start">
       <h3>התוצאה היא :</h3>
-      <textarea
-        v-if="txt && !start"
-        name=""
-        id="textarea-ocr"
-        cols="60"
-        rows="20"
-        v-model="txt"
-      ></textarea
-      ><br />
+      <textarea v-if="txt && !start" name="" id="textarea-ocr" cols="60" rows="20" v-model="txt"></textarea><br />
       <button @click="copyTxt" id="but-copy" class="but-ocr">העתק</button>
       {{ copy }}
     </div>
@@ -91,9 +77,8 @@ export default {
     };
 
     const getTxt = async (img) => {
-      const worker = createWorker();
+      const worker = await createWorker();
       start.value = true;
-      await worker.load();
       await worker.loadLanguage(language.value.lang);
       await worker.initialize(language.value.lang);
       start.value = true;
@@ -140,6 +125,7 @@ export default {
   display: block;
   margin: 0 auto;
 }
+
 #textarea-ocr {
   width: 70%;
   border: 2px solid #2a668d;
@@ -149,6 +135,7 @@ export default {
   font-size: 16px;
   font-family: Helvetica, Arial, sans-serif;
 }
+
 .instructions {
   text-align: justify;
   width: 40%;
@@ -158,14 +145,17 @@ export default {
   margin-bottom: 20px;
   background: rgb(233, 237, 240);
 }
+
 .instructions h4 {
   text-align: center;
   margin: 5px;
 }
+
 .instructions ol {
   padding: 4px;
   list-style-position: inside;
 }
+
 #imput-file {
   width: 0.1px;
   height: 0.1px;
@@ -174,12 +164,14 @@ export default {
   position: absolute;
   z-index: -1;
 }
+
 #input-url {
   height: 20px;
   border: solid 2px rgb(50, 117, 148);
   border-radius: 5px;
   margin: 5px;
 }
+
 .but-ocr {
   background: rgb(50, 117, 148);
   color: white;
@@ -189,9 +181,11 @@ export default {
   border-radius: 4px;
   display: inline-block;
 }
+
 .but-ocr:hover {
   border: 2px solid black;
 }
+
 #but-copy {
   padding: 6px 12px;
   font-size: 14px;
