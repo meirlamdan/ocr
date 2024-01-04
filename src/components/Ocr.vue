@@ -77,10 +77,7 @@ export default {
     };
 
     const getTxt = async (img) => {
-      const worker = await createWorker();
-      start.value = true;
-      await worker.loadLanguage(language.value.lang);
-      await worker.initialize(language.value.lang);
+      const worker = await createWorker(language.value.lang);
       start.value = true;
       const {
         data: { text },
