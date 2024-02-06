@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import "./style.css";
+
 import Ocr from "./components/Ocr.vue";
 
 export default {
